@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
-import org.Slack.Slack
-import groovy.json.JsonSlurperClassic
-import groovy.json.JsonOutput
+import org.Slack.SlackPipeline
 
 def call() {
 
