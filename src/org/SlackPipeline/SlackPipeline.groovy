@@ -54,9 +54,6 @@ class SlackPipeline {
     this.message = message
   }
 
-  def getMessage() {
-    return this.message
-  }
 
 
   def sendStageSkipped(channel, name, ts, String s = null) {
