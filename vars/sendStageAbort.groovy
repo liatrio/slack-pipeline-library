@@ -1,14 +1,12 @@
 #!/usr/bin/env groovy
 import org.SlackPipeline.SlackPipeline
 
-def call(def Message) {
-  Slack slack = new Slack()
+def call(sp) {
 
-  def payload = slack.sendStageAbort(Message, "${env.SLACK_ROOM}", Message.ts, "${env.BUILD_URL}")
+  def payload = sp.sendStageAbort( "${env.SLACK_ROOM}", "${env.BUILD_URL}")
   def m = sh(returnStdout: true, script: "curl --silent -X POST -H 'Authorization: Bearer ${env.SLACK_TOKEN}' -H \"Content-Type: application/json\" --data \'${payload}\' ${env.SLACK_WEBHOOK_URL}/api/chat.update").trim() 
   def json = readJSON text: m
-  Message = json
 
-  return Message
+  sp.response = json
 }
 

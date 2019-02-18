@@ -8,6 +8,8 @@ import groovy.json.JsonOutput
 class SlackPipeline {
 
   def message
+  def response
+  def channel
   def attachments = [:]
 
   public SlackPipeline(body) {
@@ -18,7 +20,7 @@ class SlackPipeline {
     def fields = [
       [
         title: "Branch",
-        value: "${body.branch}",
+        value: "${body.branch}, #${body.buildNumber}",
         short: true
       ],
       [
@@ -28,7 +30,7 @@ class SlackPipeline {
       ]
     ]
     def header = [
-      title:        "1 new commit to ${body.jobName}, build #${body.buildNumber}",
+      title:        "1 new commit to ${body.jobName}",
       title_link:   "${body.title_link}",
       color:        "primary",
       author_name:  "${body.user.user.name}",
@@ -45,18 +47,23 @@ class SlackPipeline {
       ]
       this.attachments["${body.stageNames[i]}"] = stage
     }
+    def stages = []
+    for (val in attachments)
+      stages.add(val.value)
     def message = JsonOutput.toJson([
         channel: "${body.channel}",
         username: "Jenkins",
         as_user: true,
-        attachments: this.attachments
+        attachments: stages
     ])
+
+    this.channel = "${body.channel}"
     this.message = message
   }
 
 
 
-  def sendStageSkipped(channel, name, ts, String s = null) {
+  def sendStageSkipped(name, String s = null) {
     def stage
 
     if (s == null){
@@ -72,17 +79,20 @@ class SlackPipeline {
       ]
     }
     this.attachments["${name}"] = stage
+    def stages = []
+    for (val in this.attachments)
+      stages.add(val.value)
     def payload = JsonOutput.toJson([
-        ts: "${ts}",
-        channel: "${channel}",
+        ts: "${this.response.ts}",
+        channel: "${this.channel}",
         username: "Jenkins",
         as_user: true,
-        attachments: this.attachments
+        attachments: stages
     ])
     return payload
   }
 
-  def sendStageAbort(Message, channel, ts, buildURL) {
+  def sendStageAbort(Message, channel, buildURL) {
     def attachments = []
     attachments.add(Message.message.attachments[0])
     def stage = [
@@ -91,36 +101,42 @@ class SlackPipeline {
     ]
     attachments.add(stage)
 
+    def stages = []
+    for (val in this.attachments)
+      stages.add(val.value)
     def payload = JsonOutput.toJson([
-        ts: "${ts}",
-        channel: "${channel}",
+        ts: "${this.response.ts}",
+        channel: "${this.channel}",
         username: "Jenkins",
         as_user: true,
-        attachments: attachments
+        attachments: stages
     ])
 
     return payload
   }
 
-  def sendStageRunning(channel, name, ts) {
+  def sendStageRunning(name) {
     def stage = [
       color: "#cccc00",
       text: ":in_progress: ${name}: running"
     ]
     this.attachments["${name}"] = stage
 
+    def stages = []
+    for (val in this.attachments)
+      stages.add(val.value)
     def payload = JsonOutput.toJson([
-        ts: "${this.message.ts}",
-        channel: "${channel}",
+        ts: "${this.response.ts}",
+        channel: "${this.channel}",
         username: "Jenkins",
         as_user: true,
-        attachments: this.attachments
+        attachments: stages
     ])
 
     return payload
   }
 
-  def sendStageInput(channel, name, ts, String s = null, id, buildURL) {
+  def sendStageInput(name, String s = null, id, buildURL) {
     def proceed = "${buildURL}input/${id}/proceedEmpty"
     def abort = "${buildURL}input/${id}/abort"
     def actions = [
@@ -138,17 +154,20 @@ class SlackPipeline {
       ]
       this.attachments["${name}"] = stage
     }
+    def stages = []
+    for (val in this.attachments)
+      stages.add(val.value)
     def payload = JsonOutput.toJson([
-        ts: "${ts}",
-        channel: "${channel}",
+        ts: "${this.response.ts}",
+        channel: "${this.channel}",
         username: "Jenkins",
         as_user: true,
-        attachments: this.attachments
+        attachments: stages
     ])
     return payload
   }
 
-  def sendStageSuccess(channel, name, ts, String s = null) {
+  def sendStageSuccess(name, String s = null) {
     def attachments = []
     def stage
 
@@ -165,29 +184,35 @@ class SlackPipeline {
       ]
     }
     this.attachments["${name}"] = stage
+    def stages = []
+    for (val in this.attachments)
+      stages.add(val.value)
     def payload = JsonOutput.toJson([
-        ts: "${ts}",
-        channel: "${channel}",
+        ts: "${this.response.ts}",
+        channel: "${this.channel}",
         username: "Jenkins",
         as_user: true,
-        attachments: this.attachments
+        attachments: stages
     ])
     return payload
   }
 
-  def sendPipelineFailure(channel, name, ts, log) {
+  def sendPipelineFailure(name, log) {
     def stage = [
       color: "danger",
       text: ":failed: ${name}: failed```${log}```",
       mrkdwn_in: ["text"]
     ]
     this.attachments["${name}"] = stage
+    def stages = []
+    for (val in this.attachments)
+      stages.add(val.value)
     def payload = JsonOutput.toJson([
-        ts: "${ts}",
-        channel: "${channel}",
+        ts: "${this.response.ts}",
+        channel: "${this.channel}",
         username: "Jenkins",
         as_user: true,
-        attachments: this.attachments  
+        attachments: stages  
     ])
 
     return payload

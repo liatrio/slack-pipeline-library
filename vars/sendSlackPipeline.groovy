@@ -31,7 +31,8 @@ def call() {
   SlackPipeline sp = new SlackPipeline(body)
   def response = sh(returnStdout: true, script: "curl --silent -X POST -H 'Authorization: Bearer ${env.SLACK_TOKEN}' -H \"Content-Type: application/json\" --data \'${sp.message}\' ${env.SLACK_WEBHOOK_URL}/api/chat.postMessage").trim()
   def responseJSON = readJSON text: response
-  return responseJSON 
+  sp.response = responseJSON
+  return sp
 }
 
 def getStageNames(jenkinsfile){
