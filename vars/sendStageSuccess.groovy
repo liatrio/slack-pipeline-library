@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
-import org.Slack.Slack
-import groovy.json.JsonSlurperClassic
-import groovy.json.JsonOutput
+import org.SlackPipeline.SlackPipeline
 
 def call(def Message, String s = null) {
   def payload = slack.sendStageSuccess("${env.SLACK_ROOM}", "${env.STAGE_NAME}", Message.ts, s)

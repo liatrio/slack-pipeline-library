@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-package org.Slack.SlackPipeline
+package org.SlackPipeline
 import groovy.json.JsonOutput
 
 

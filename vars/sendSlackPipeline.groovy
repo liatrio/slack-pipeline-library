@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-import org.Slack.SlackPipeline
+import org.SlackPipeline.SlackPipeline
 
 def call() {
 
