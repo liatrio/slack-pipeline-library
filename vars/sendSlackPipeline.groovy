@@ -4,8 +4,7 @@ import org.SlackPipeline.SlackPipeline
 def call() {
 
 
-  sh "cp Jenkinsfile Jenkinsfile_tmp"
-  def jenkinsfile   =  readFile file: "Jenkinsfile_tmp"
+  def jenkinsfile   =  readFile file: "Jenkinsfile"
   def stageNames    =  getStageNames(jenkinsfile)
 
   def commit        =  sh(returnStdout: true, script: 'git rev-parse HEAD')
