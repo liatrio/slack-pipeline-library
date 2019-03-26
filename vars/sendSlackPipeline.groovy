@@ -11,6 +11,9 @@ def call() {
   def author        =  sh(returnStdout: true, script: "git --no-pager show -s --format='%an' ${commit}").trim()
   def message       =  sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim() 
   def user          =  getSlackUser()
+  def jobName       = env.JOB_NAME.split('/')
+
+  jobName           = jobName[jobName.length-2]
 
   body = [
     author:            "${author}",
@@ -18,7 +21,7 @@ def call() {
     buildURL:          "${env.BUILD_URL}",
     buildNumber:       "${env.BUILD_NUMBER}",
     channel:           "${env.SLACK_ROOM}",
-    jobName:           "${env.JOB_NAME}",
+    jobName:           "${jobName}",
     message:           "${message}",
     stageNames:         stageNames,
     slackURL:          "${env.SLACK_WEBHOOK_URL}",
