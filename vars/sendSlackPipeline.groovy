@@ -18,7 +18,7 @@ def call() {
     buildURL:          "${env.BUILD_URL}",
     buildNumber:       "${env.BUILD_NUMBER}",
     channel:           "${env.SLACK_ROOM}",
-    jobName:           "${scm.getUserRemoteConfigs()[0].getUrl().tokenize('/')[4].split("\\.")[0]}",
+    jobName:           "${env.JOB_NAME}",
     message:           "${message}",
     stageNames:         stageNames,
     slackURL:          "${env.SLACK_WEBHOOK_URL}",
