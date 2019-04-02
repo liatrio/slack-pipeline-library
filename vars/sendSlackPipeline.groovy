@@ -4,17 +4,28 @@ import org.SlackPipeline.SlackPipeline
 def call() {
 
 
+
   def jenkinsfile   =  readFile file: "Jenkinsfile"
   def stageNames    =  getStageNames(jenkinsfile)
 
   def commit        =  sh(returnStdout: true, script: 'git rev-parse HEAD')
   def author        =  sh(returnStdout: true, script: "git --no-pager show -s --format='%an' ${commit}").trim()
   def message       =  sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim() 
-  def user          =  getSlackUser()
+  def slackUser     =  getSlackUser()
   def jobName       = env.JOB_NAME.split('/')
+  def author_name   = "";
+  def author_icon   = "";
 
   jobName           = jobName[jobName.length-2]
 
+  if (slackUser.ok == "true"){
+    author_name = "${body.user.user.name}";
+    author_icon = "${body.user.user.profile.image_192}";
+  }
+  else {
+    author_name = "Unknown";
+    author_icon = "";
+  }
   body = [
     author:            "${author}",
     branch:            "${env.BRANCH_NAME}",
@@ -28,7 +39,8 @@ def call() {
     title_link:        "${scm.getUserRemoteConfigs()[0].getUrl()}",
     slack_token:       "${env.SLACK_TOKEN}",
     slack_webhook_url: "${env.SLACK_WEBHOOK_URL}",
-    user:               user
+    author_name:       "${author_name}",
+    author_icon:       "${author_icon}"
   ]
   
   SlackPipeline sp = new SlackPipeline(body)
