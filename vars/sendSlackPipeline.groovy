@@ -18,14 +18,16 @@ def call() {
 
   jobName           = jobName[jobName.length-2]
 
-  if (slackUser.ok == "true"){
-    author_name = "${body.user.user.name}";
-    author_icon = "${body.user.user.profile.image_192}";
-  }
-  else {
-    author_name = "Unknown";
-    author_icon = "";
-  }
+  author_name = "${slackUser.user.name}";
+  author_icon = "${slackUser.user.profile.image_192}";
+  //if (slackUser.ok == "true"){
+  //author_name = "${body.user.user.name}";
+  //author_icon = "${body.user.user.profile.image_192}";
+  //}
+  //else {
+  //  author_name = "Unknown";
+  //  author_icon = "";
+  //}
   body = [
     author:            "${author}",
     branch:            "${env.BRANCH_NAME}",
