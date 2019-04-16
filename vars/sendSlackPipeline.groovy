@@ -39,6 +39,7 @@ def call() {
     stageNames:         stageNames,
     slackURL:          "${env.SLACK_WEBHOOK_URL}",
     title_link:        "${scm.getUserRemoteConfigs()[0].getUrl()}",
+    footer_url:        "${env.BUILD_URL}console",
     slack_token:       "${env.SLACK_TOKEN}",
     slack_webhook_url: "${env.SLACK_WEBHOOK_URL}",
     author_name:       "${author_name}",

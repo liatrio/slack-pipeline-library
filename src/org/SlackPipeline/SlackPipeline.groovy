@@ -35,6 +35,7 @@ class SlackPipeline {
       color:        "primary",
       author_name:  "${body.author_name}",
       author_icon:  "${body.author_icon}",
+      footer:       "<${body.footer_url}|Jenkins Build>",
       callback_id:  "stage_callback",
       actions:       actions,
       fields:        fields
