@@ -1,30 +1,12 @@
 #!/usr/bin/env groovy
-import org.Slack.Slack
-import groovy.json.JsonSlurperClassic
-import groovy.json.JsonOutput
+import org.SlackPipeline.SlackPipeline
 
-def call(err, Message) {
-  Slack slack = new Slack()
+def call(sp) {
 
-  Message.message.attachments.eachWithIndex { attachment, index ->
-    if (attachment.text != '' && attachment.text != null){
-      def name = attachment.text.replaceAll(": running", "")
-      if ("${name}" == "${env.STAGE_NAME}"){
-        def payload = slack.sendPipelineFailure(Message, "${env.SLACK_ROOM}", name, Message.ts, index, Message.message.attachments.size(), err)
-        def m = sh(returnStdout: true, script: "curl --silent -X POST -H 'Authorization: Bearer ${env.SLACK_TOKEN}' -H \"Content-Type: application/json\" --data \'${payload}\' ${env.SLACK_WEBHOOK_URL}/api/chat.update").trim() 
-        def json = readJSON text: m
-        //def m = httpRequest validResponseCodes: '409,201,200', 
-        //          customHeaders: [[name: "Authorization", value: "Bearer ${env.SLACK_TOKEN}"]], 
-        //          consoleLogResponseBody: true, 
-        //          acceptType: 'APPLICATION_JSON', 
-        //          contentType: 'APPLICATION_JSON', 
-        //          httpMode: 'POST', 
-        //          requestBody: "${slackMessage}", 
-        //          url: "${env.SLACK_WEBHOOK_URL}/api/chat.postMessage"
-        //def json = readJSON text: m.content
-        Message = json
-      }
-    }
-  }
+  def blue_ocean_url = "${env.JENKINS_URL}blue/rest/organizations/jenkins/pipelines"
+  //def stages = sh(returnStdout: true, script: "curl --silent  -H 'Authorization: Bearer ${env.SLACK_TOKEN}'  ${blue_ocean_url}").trim() 
+
+  //def payload = sp.sendPipelineFailure("${env.STAGE_NAME}")
+  //def m = sh(returnStdout: true, script: "curl --silent -X POST -H 'Authorization: Bearer ${env.SLACK_TOKEN}' -H \"Content-Type: application/json\" --data \'${payload}\' ${env.SLACK_WEBHOOK_URL}/api/chat.update").trim() 
 
 }
