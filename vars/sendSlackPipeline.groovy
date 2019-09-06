@@ -47,7 +47,7 @@ def call() {
   ]
   
   SlackPipeline sp = new SlackPipeline(body)
-  def response = sh(returnStdout: true, script: "curl --silent -X POST -H 'Authorization: Bearer ${env.SLACK_TOKEN}' -H \"Content-Type: application/json\" --data \'${sp.message}\' ${env.SLACK_WEBHOOK_URL}/api/chat.postMessage").trim()
+  def response = sh(returnStdout: true, script: "curl -X POST -H \"Content-Type: application/json\" --data \'${sp.message}\' ${env.SLACK_WEBHOOK_URL}").trim()
   def responseJSON = readJSON text: response
   sp.response = responseJSON
   return sp
