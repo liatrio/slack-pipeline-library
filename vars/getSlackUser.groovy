@@ -4,12 +4,12 @@ import java.net.URLEncoder
 def call() {
   def email = ""
   echo '1'
-  echo "${env.BUILD_USER_EMAIL}"
+  echo "${env.USER_EMAIL}"
   echo '2'
-  echo  env.BUILD_USER_EMAIL
+  echo  env.USER_EMAIL
 
-  if ("${env.BUILD_USER_EMAIL}" != "" && env.BUILD_USER_EMAIL != null) {
-    email = "${env.BUILD_USER_EMAIL}"
+  if ("${env.USER_EMAIL}" != "" && env.USER_EMAIL != null) {
+    email = "${env.USER_EMAIL}"
   }
   else {
     email = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' \$GIT_COMMIT").trim()
