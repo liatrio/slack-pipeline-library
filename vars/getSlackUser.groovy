@@ -3,6 +3,11 @@ import java.net.URLEncoder
 
 def call() {
   def email = ""
+  echo '1'
+  echo "${env.BUILD_USER_EMAIL}"
+  echo '2'
+  echo  env.BUILD_USER_EMAIL
+
   if ("${env.BUILD_USER_EMAIL}" != "" && env.BUILD_USER_EMAIL != null) {
     email = "${env.BUILD_USER_EMAIL}"
   }
