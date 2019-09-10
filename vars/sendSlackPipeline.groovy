@@ -15,7 +15,6 @@ def call() {
   def jobName       = env.JOB_NAME.split('/')
   def author_name   = "";
   def author_icon   = "";
-
   jobName           = jobName[jobName.length-2]
 
   author_name = "${slackUser.user.name}";
@@ -30,7 +29,7 @@ def call() {
   //}
   body = [
     author:            "${author}",
-    branch:            "${env.BRANCH_NAME}",
+    branch:            "${env.GIT_BRANCH}",
     buildURL:          "${env.BUILD_URL}",
     buildNumber:       "${env.BUILD_NUMBER}",
     channel:           "${env.SLACK_ROOM}",
