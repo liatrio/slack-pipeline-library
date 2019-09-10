@@ -15,7 +15,6 @@ def call() {
   def jobName       = env.JOB_NAME.split('/')
   def author_name   = "";
   def author_icon   = "";
-  def GIT_BRANCH    = sh(returnStdout: true, script: 'git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,'').trim()
   jobName           = jobName[jobName.length-2]
 
   author_name = "${slackUser.user.name}";
@@ -30,7 +29,7 @@ def call() {
   //}
   body = [
     author:            "${author}",
-    branch:            "${GIT_BRANCH}",
+    branch:            "${env.GIT_BRANCH}",
     buildURL:          "${env.BUILD_URL}",
     buildNumber:       "${env.BUILD_NUMBER}",
     channel:           "${env.SLACK_ROOM}",
