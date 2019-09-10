@@ -15,7 +15,7 @@ def call() {
   def jobName       = env.JOB_NAME.split('/')
   def author_name   = "";
   def author_icon   = "";
-  def GIT_BRANCH    = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+  def GIT_BRANCH    = sh(returnStdout: true, script: 'git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,'').trim()
   jobName           = jobName[jobName.length-2]
 
   author_name = "${slackUser.user.name}";
