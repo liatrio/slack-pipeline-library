@@ -93,9 +93,8 @@ class SlackPipeline {
     return payload
   }
 
-  def sendStageAbort(Message, channel, buildURL) {
+  def sendStageAbort(channel, buildURL) {
     def attachments = []
-    attachments.add(Message.message.attachments[0])
     def stage = [
       color: "#cccc00",
       "text": "<${buildURL}|Build has been aborted.>"
