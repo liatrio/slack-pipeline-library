@@ -94,13 +94,11 @@ class SlackPipeline {
   }
   
   def sendStageAbort(channel, buildURL) {
-    def attachments = []
     def stage = [
       color: "#cccc00",
       "text": "<${buildURL}|Build has been aborted.>"
     ]
-    attachments.add(stage)
-
+    this.attachments["${channel}"] = stage
     def stages = []
     for (val in this.attachments)
       stages.add(val.value)
