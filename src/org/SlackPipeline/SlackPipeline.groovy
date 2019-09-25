@@ -13,10 +13,11 @@ class SlackPipeline {
   def attachments = [:]
 
   public SlackPipeline(body) {
-    def abort = "${body.buildURL}stop"
+    /*def abort = "${body.buildURL}stop"
     def actions = [
       [text: "Abort", name: abort, value: abort, type: "button"]
     ]
+    */
     def fields = [
       [
         title: "Branch",
@@ -96,7 +97,7 @@ class SlackPipeline {
   def sendStageAbort(channel, buildURL) {
     def stage = [
       color: "#cccc00",
-      "text": "<${buildURL}|Build has been aborted.>"
+      "text": ":failed: <${buildURL}|Build has been aborted.>"
     ]
     this.attachments["${channel}"] = stage
     def stages = []
@@ -112,29 +113,6 @@ class SlackPipeline {
 
     return payload
   }
-/*
-  def sendStageAbort(channel, buildURL) {
-    def attachments = []
-    def stage = [
-      color: "#cccc00",
-      "text": "<${buildURL}|Build has been aborted.>"
-    ]
-    attachments.add(stage)
-
-    def stages = []
-    for (val in this.attachments)
-      stages.add(val.value)
-    def payload = JsonOutput.toJson([
-        ts: "${this.response.ts}",
-        channel: "${this.channel}",
-        username: "Jenkins",
-        as_user: true,
-        attachments: stages
-    ])
-
-    return payload
-  }
-  */
 
   def sendStageRunning(name) {
     def stage = [
