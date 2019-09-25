@@ -28,7 +28,7 @@ def call() {
   //  author_icon = "";
   //}
   body = [
-    author:            "${author}",
+    //author:            "${author}",
     branch:            "${env.GIT_BRANCH}",
     buildURL:          "${env.BUILD_URL}",
     buildNumber:       "${env.BUILD_NUMBER}",
