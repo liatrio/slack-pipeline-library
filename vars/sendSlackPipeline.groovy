@@ -11,14 +11,14 @@ def call() {
   def commit        =  sh(returnStdout: true, script: 'git rev-parse HEAD')
   def author        =  sh(returnStdout: true, script: "git --no-pager show -s --format='%an' ${commit}").trim()
   def message       =  sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim() 
-  def slackUser     =  getSlackUser()
+  //def slackUser     =  getUser()
   def jobName       = env.JOB_NAME.split('/')
   def author_name   = "";
   def author_icon   = "";
   jobName           = jobName[jobName.length-2]
 
-  author_name = "${slackUser.user.name}";
-  author_icon = "${slackUser.user.profile.image_192}";
+  //author_name = "${slackUser.user.name}";
+  //author_icon = "${slackUser.user.profile.image_192}";
   //if (slackUser.ok == "true"){
   //author_name = "${body.user.user.name}";
   //author_icon = "${body.user.user.profile.image_192}";
