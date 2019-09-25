@@ -33,7 +33,7 @@ class SlackPipeline {
       title:        "1 new commit to ${body.jobName}",
       title_link:   "${body.title_link}",
       color:        "primary",
-      //author_name:  "${body.author_name}",
+      author_name:  "Jenkins"
       //author_icon:  "${body.author_icon}",
       footer:       "<${body.footer_url}|Jenkins Build log>",
       callback_id:  "stage_callback",
