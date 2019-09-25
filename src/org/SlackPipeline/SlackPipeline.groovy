@@ -38,7 +38,7 @@ class SlackPipeline {
       //author_icon:  "${body.author_icon}",
       footer:       "<${body.footer_url}|Jenkins Build log>",
       callback_id:  "stage_callback",
-      actions:       actions,
+      //actions:       actions,
       fields:        fields
     ]
     this.attachments.header = header
