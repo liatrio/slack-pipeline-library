@@ -13,8 +13,8 @@ def call() {
   def message       =  sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim() 
   //def slackUser     =  getUser()
   def jobName       = env.JOB_NAME.split('/')
-  def author_name   = "";
-  def author_icon   = "";
+  //def author_name   = "";
+  //def author_icon   = "";
   jobName           = jobName[jobName.length-2]
 
   //author_name = "${slackUser.user.name}";
@@ -41,8 +41,8 @@ def call() {
     footer_url:        "${env.BUILD_URL}console",
     slack_token:       "${env.SLACK_TOKEN}",
     slack_webhook_url: "${env.SLACK_WEBHOOK_URL}",
-    author_name:       "${author_name}",
-    author_icon:       "${author_icon}"
+    //author_name:       "${author_name}",
+    //author_icon:       "${author_icon}"
   ]
   
   SlackPipeline sp = new SlackPipeline(body)
