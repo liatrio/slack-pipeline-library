@@ -199,7 +199,7 @@ class SlackPipeline {
   def sendPipelineFailure(name, log) {
     def stage = [
       color: "danger",
-      text: ":failed: Current running stage failed check logs here - ${log}",
+      text: ":failed: Current running stage failed. Check logs here - ${log}",
       mrkdwn_in: ["text"]
     ]
     this.attachments["${name}"] = stage
