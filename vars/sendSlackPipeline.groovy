@@ -41,7 +41,7 @@ def call() {
     footer_url:        "${env.BUILD_URL}console",
     slack_token:       "${env.SLACK_TOKEN}",
     slack_webhook_url: "${env.SLACK_WEBHOOK_URL}",
-    //author_name:       "${author_name}",
+    author_name:       "Jenkins",
     //author_icon:       "${author_icon}"
   ]
   
